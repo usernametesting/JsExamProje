@@ -1,5 +1,5 @@
-// login page js
-document.querySelectorAll('.input').forEach((input) => {
+// ----------------------------------------------login page ----------------------------------------------
+document.querySelectorAll('.input')?.forEach((input) => {
     input.addEventListener('focus', function () {
         this.previousElementSibling.classList.add('input-content-hidden');
     });
@@ -10,11 +10,11 @@ document.querySelectorAll('.input').forEach((input) => {
 
 
 // click register link
-document.getElementById('register').addEventListener('click', () => {
+document.getElementById('register')?.addEventListener('click', () => {
     location.href = './register.html';
 });
 // click login btn
-document.getElementById('login-btn').addEventListener('click', () => {
+document.getElementById('login-btn')?.addEventListener('click', () => {
     let email = document.getElementById('login-email').value;
     let pass = document.getElementById('login-password').value;
     loginValidator(email, pass) ? location.href = './products.html' : alertify.error("invalid data");
@@ -28,3 +28,9 @@ function loginValidator(email, pass) {
     // return true;
 
 }
+
+
+// ----------------------------------------------register page ----------------------------------------------
+document.getElementById('login')?.addEventListener('click', () => {
+    location.href = './index.html';
+});
