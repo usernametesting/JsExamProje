@@ -1,0 +1,15 @@
+// function reqParams(controller, action, queryString, token,method) {
+//     this.controller = controller;
+//     this.action = action;
+//     this.queryString = queryString;
+//     this.token = token;
+//     this.method = method;
+// }
+
+
+// const Method = {
+//     POST: 'POST',
+//     GET: 'GET',
+//     PUT: 'PUT',
+//     DELETE: 'DELETE'
+// }; 

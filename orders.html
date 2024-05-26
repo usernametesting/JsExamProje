@@ -11,6 +11,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- alertify -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css"
+        integrity="sha512-IXuoq1aFd2wXs4NqGskwX2Vb+I8UJ+tGJEu/Dc0zwLNKeQ7CW3Sr6v0yU3z5OQWe3eScVIkER4J9L7byrgR/fA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.js"
+        integrity="sha512-eOUPKZXJTfgptSYQqVilRmxUNYm0XVHwcRHD4mdtCLWf/fC9XWe98IT8H1xzBkLL4Mo9GL0xWMSJtgS5te9rQA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- added jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Document</title>
 </head>
 
@@ -69,143 +79,30 @@
         </nav>
         <h1>Card</h1>
         <!-- body -->
-        <div class="order-body">
-            <div class="order-component">
-                <div class="line"></div>
-                <div class="component-item">
-                    <div class="right-side-part-2 special-right-side-part-2">
-
-                        <div class="content">
-                            <p>Apollo</p>
-                            <p>Running short</p>
-                        </div>
-
-                        <div class="sizes-div">
-                            <p>SIZE</p>
-                            <div class="sizes">
-                                <div class="size-1">XS</div>
-                                <div class="size-1">XS</div>
-                                <div class="size-1">XS</div>
-                                <div class="size-1">XS</div>
-                            </div>
-                        </div>
-
-                        <div class="colors-div">
-                            <p>COLOR</p>
-                            <div class="colors">
-                                <div class="-1"> </div>
-                                <div class="color-1"> </div>
-                                <div class="color-1"> </div>
-                                <div class="color-1"> </div>
-                            </div>
-                        </div>
-
-                        <div class="price-div">
-                            <p>123$</p>
-                        </div>
-
-                        <button>Add to card</button>
-                    </div>
-
-                    <div class="right-panel">
-                        <div class="left">
-                            <button id="increment-btn">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-
-                            <p>1</p>
-
-                            <button id="decrement-btn">
-                                <i class="fa-solid fa-minus"></i>
-                            </button>
-                        </div>
-
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZgWMU91Z3ygm7v8av1F9mlo2AXvCy6kULZPBMXVzVDQ&s"
-                            alt="">
-                    </div>
-                </div>
-            </div>
-
-            <div class="order-component">
-                <div class="line"></div>
-                <div class="component-item">
-                    <div class="right-side-part-2 special-right-side-part-2">
-
-                        <div class="content">
-                            <p>Apollo</p>
-                            <p>Running short</p>
-                        </div>
-
-                        <div class="sizes-div">
-                            <p>SIZE</p>
-                            <div class="sizes">
-                                <div class="size-1">XS</div>
-                                <div class="size-1">XS</div>
-                                <div class="size-1">XS</div>
-                                <div class="size-1">XS</div>
-                            </div>
-                        </div>
-
-                        <div class="colors-div">
-                            <p>COLOR</p>
-                            <div class="colors">
-                                <div class="-1"> </div>
-                                <div class="color-1"> </div>
-                                <div class="color-1"> </div>
-                                <div class="color-1"> </div>
-                            </div>
-                        </div>
-
-                        <div class="price-div">
-                            <p>123$</p>
-                        </div>
-
-                        <button>Add to card</button>
-                    </div>
-
-                    <div class="right-panel">
-                        <div class="left">
-                            <button id="increment-btn">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-
-                            <p>1</p>
-
-                            <button id="decrement-btn">
-                                <i class="fa-solid fa-minus"></i>
-                            </button>
-                        </div>
-
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZgWMU91Z3ygm7v8av1F9mlo2AXvCy6kULZPBMXVzVDQ&s"
-                            alt="">
-                    </div>
-                </div>
-            </div>
-
-            <!-- fixed design -->
-            <div class="order-compnent">
-                <div class="tax">
-                    <p>Tax 20%: </p>
-                    <p>$40.00</p>
-                </div>
-
-                <div class="quantity">
-                    <p>Quantity: </p>
-                    <p>3</p>
-                </div>
-
-                <div class="total">
-                    <p>Total: </p>
-                    <p>$200.00</p>
-                </div>
-
-                <button></button>
-
-            </div>
-
-
-            </div>
+        <div class="order-body" id="orders-container">
         </div>
+
+        <div class="order-compnent">
+            <div class="tax">
+                <p>Tax 20%: </p>
+                <p>$40.00</p>
+            </div>
+
+            <div class="quantity">
+                <p>Quantity: </p>
+                <p>3</p>
+            </div>
+
+            <div class="total">
+                <p>Total: </p>
+                <p>$200.00</p>
+            </div>
+
+            <button id="orderBtn">Order</button>
+
+        </div>
+
+    </div>
 
     </div>
 </body>

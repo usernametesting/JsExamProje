@@ -1,0 +1,30 @@
+// function requestPost(data,reqParams,successCallBack,errorCallBack){
+//     let url =generateUrl(reqParams);
+//     alert("url: "+url);
+//        $.ajax({
+//         type: reqParams.method,
+//         url: url,
+//         data: JSON.stringify(data),
+//         contentType: "application/json",
+//         success: (response) => {
+//            successCallBack(response);
+//         },
+//         error: (error) => {
+//             errorCallBack(error.responseText);
+//         }
+//     });
+// }
+
+// function generateUrl(reqParams){
+
+//     // console.log(reqParams.controller);
+//     // console.log(reqParams.action);
+//     // console.log(reqParams.queryString);
+//     // console.log(reqParams.token);
+//     let data =  "http://localhost:5000/api" +
+//     (reqParams.controller !== undefined ? `/${reqParams.controller}` : "") +
+//     (reqParams.action !== undefined ? `/${reqParams.action}` : "") ;
+//     alert("data: "+data);
+//     return data;
+//     // (reqParams.queryString !== undefined ? `?${reqParams.queryString}` : ""); 
+// }

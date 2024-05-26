@@ -1,0 +1,14 @@
+// function loginUserVM(name, surname, email, password) {
+//     this.name = name;
+//     this.surname = surname;
+//     this.email = email;
+//     this.password = password;
+// }
+
+// function registerUserVM(email, password,token) {
+//     this.email = email;
+//     this.password = password;
+//     this.token = token;
+// }
+
+

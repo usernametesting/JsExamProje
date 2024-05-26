@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- alertify -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css"
+        integrity="sha512-IXuoq1aFd2wXs4NqGskwX2Vb+I8UJ+tGJEu/Dc0zwLNKeQ7CW3Sr6v0yU3z5OQWe3eScVIkER4J9L7byrgR/fA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.js"
+        integrity="sha512-eOUPKZXJTfgptSYQqVilRmxUNYm0XVHwcRHD4mdtCLWf/fC9XWe98IT8H1xzBkLL4Mo9GL0xWMSJtgS5te9rQA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        
+    <!-- added jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Document</title>
 </head>
 
@@ -20,7 +31,7 @@
             <div class="left-side-links">
 
                 <div class="link-div">
-                    <a href="#">WOMEN</a>
+                    <a id="women" href="#">WOMEN</a>
                     <div class="unser-line"></div>
                 </div>
 
@@ -44,14 +55,14 @@
 
             <div class="right-side-links">
                 <p class="product-navbar-icon">$</p>
-                <a href="">
+                <a id="product-basket">
                     <i class="fa-solid fa-cart-shopping product-navbar-icon" style="color: black;"></i>
                 </a>
             </div>
 
             <!-- responsive way -->
             <div class="btns">
-                <a href="">
+                <a>
                     <i class="fa-solid fa-bars product-navbar-icon"></i>
                 </a>
 
@@ -73,82 +84,7 @@
                 <h1>Category name</h1>
             </div>
 
-            <div class="products">
-                <div class="card">
-                    <div class="img-div">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZgWMU91Z3ygm7v8av1F9mlo2AXvCy6kULZPBMXVzVDQ&s"
-                            alt="">
-                    </div>
-                    <div class="content">
-                        <p>Apollo Running Short</p>
-                        <p>$50.00</p>
-                    </div>
-                    <a href="" class="card-shopping-btn">
-                        <i class="fa-solid fa-cart-plus" style="color: white;"></i>
-                    </a>
-                </div>
-
-                <div class="card">
-                    <div class="img-div">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZgWMU91Z3ygm7v8av1F9mlo2AXvCy6kULZPBMXVzVDQ&s"
-                            alt="">
-                    </div>
-                    <div class="content">
-                        <p>Apollo Running Short</p>
-                        <p>$50.00</p>
-                    </div>
-                    <a href="" class="card-shopping-btn">
-                        <i class="fa-solid fa-cart-plus" style="color: white;"></i>
-                    </a>
-                </div>
-
-
-                <div class="card">
-                    <div class="img-div">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZgWMU91Z3ygm7v8av1F9mlo2AXvCy6kULZPBMXVzVDQ&s"
-                            alt="">
-                    </div>
-                    <div class="content">
-                        <p>Apollo Running Short</p>
-                        <p>$50.00</p>
-                    </div>
-                    <a href="" class="card-shopping-btn">
-                        <i class="fa-solid fa-cart-plus" style="color: white;"></i>
-                    </a>
-                </div>
-
-
-                <div class="card">
-                    <div class="img-div">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZgWMU91Z3ygm7v8av1F9mlo2AXvCy6kULZPBMXVzVDQ&s"
-                            alt="">
-                    </div>
-                    <div class="content">
-                        <p>Apollo Running Short</p>
-                        <p>$50.00</p>
-                    </div>
-                    <a href="" class="card-shopping-btn">
-                        <i class="fa-solid fa-cart-plus" style="color: white;"></i>
-                    </a>
-                </div>
-
-
-                <div class="card">
-                    <div class="img-div">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZgWMU91Z3ygm7v8av1F9mlo2AXvCy6kULZPBMXVzVDQ&s"
-                            alt="">
-                    </div>
-                    <div class="content">
-                        <p>Apollo Running Short</p>
-                        <p>$50.00</p>
-                    </div>
-                    <a href="" class="card-shopping-btn">
-                        <i class="fa-solid fa-cart-plus" style="color: white;"></i>
-                    </a>
-                </div>
-
-
-
+            <div class="products" id="card-container">
             </div>
         </div>
     </div>
