@@ -560,7 +560,7 @@ order-body {
     gap: 15px;
 }
 
-.order-compnent{
+.order-compnent {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -570,7 +570,7 @@ order-body {
 
 }
 
-.order-compnent button{
+.order-compnent button {
     padding: 10px;
     text-align: center;
     display: flex;
@@ -580,8 +580,11 @@ order-body {
     width: 100%;
 }
 
+.decrement-btn,.increment-btn :hover{
+    cursor: pointer !important;
+}
 
-.order-compnent div{
+.order-compnent div {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -589,6 +592,43 @@ order-body {
 }
 
 
-.decrement-btn,.increment-btn :hover{
+.decrement-btn,
+.increment-btn :hover {
+    cursor: pointer;
+}
+
+.detail-body .left-side image:hover {
+    cursor: pointer;
+}
+
+.left-side-img {
+    cursor: pointer;
+    border: 2px solid black;
+}
+
+.detail-body .left-side img:first-child {
+    border-color: green;
+}
+
+.sizes div:first-child {
+    background-color: green;
+}
+
+.sizes div:hover{
+    cursor: pointer;
+}
+
+.colors div {
+    border: 4px solid transparent;
+}
+.colors div:hover{
+    cursor: pointer;
+}
+
+.colors div:first-child {
+    border: 4px solid white ;
+}
+
+.fa-solid .fa-cart-shopping .product-navbar-icon:hover{
     cursor: pointer;
 }

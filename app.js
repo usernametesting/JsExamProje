@@ -176,9 +176,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return acc;
             }, {});
 
+            $('#totalPrice').text('0');
+            $('#totalQuantity').text('0');
             (Object.entries(uniqueProducts)).map(([productId, count]) => {
                 generateOrderCard(productId, count);
             });
+
 
         },
             (error) => {
@@ -189,12 +192,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         var id = window.location.href.substring(window.location.href.indexOf('=') + 1);
         let product = await getSingleProduct(id);
         loadDetailContent(product);
-
     }
 });
 
 
 function loadOrderContent(callback, errorCallBack) {
+    // $('#orders-container').empty();
     let req_params = new reqParams('orders', null, null, getCookie('token'), Method.GET);
     request(null, req_params,
         (resp) => {
@@ -209,6 +212,10 @@ function loadOrderContent(callback, errorCallBack) {
 async function generateOrderCard(orderId, count) {
 
     let product = await getSingleProduct(orderId);
+    $('#totalPrice').text(parseInt($('#totalPrice').text()) + product.price * count);
+    $('#totalQuantity').text(parseInt($('#totalQuantity').text()) + count);
+    $('#taxResult').text(parseFloat(($('#tax').text().replace('%', '').replace(':', '')).trim().split(' ')[1])
+        * $('#totalPrice').text());
     console.log(product);
     // Create the main order component div
     const orderComponent = document.createElement('div');
@@ -235,8 +242,11 @@ async function generateOrderCard(orderId, count) {
     const p2 = document.createElement('p');
     p2.textContent = product.description;
     p2.style.width = '250px'
+    const price = document.createElement('p');
+    price.textContent = product.price + ' $';
     contentDiv.appendChild(p1);
     contentDiv.appendChild(p2);
+    contentDiv.appendChild(price);
 
     rightSidePart2.appendChild(contentDiv);
 
@@ -254,6 +264,11 @@ async function generateOrderCard(orderId, count) {
         size.className = 'size-1';
         size.textContent = product.size[i];
         sizes.appendChild(size);
+
+        $(size).hover(function () {
+            $('.size-1').css('background-color', 'transparent');
+            $(this).css('background-color', 'green');
+        });
     }
 
     sizesDiv.appendChild(sizes);
@@ -270,10 +285,15 @@ async function generateOrderCard(orderId, count) {
 
     for (let i = 0; i < product.colors.length; i++) {
         const color = document.createElement('div');
-        color.className = product.colors[i];
+        color.className = 'color-1';
         color.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.5)';
         color.style.backgroundColor = product.colors[i];
         colors.appendChild(color);
+
+        $(color).hover(function () {
+            $('.color-1').css('border', '4px solid transparent');
+            $(this).css('border', '4px solid white');
+        });
     }
 
     colorsDiv.appendChild(colors);
@@ -312,10 +332,11 @@ async function generateOrderCard(orderId, count) {
 
     const quantity = document.createElement('p');
     quantity.textContent = count;
-    quantity.id = 'quantity'+product.id;
+    quantity.id = 'quantity' + product.id;
 
     const decrementButton = document.createElement('button');
     decrementButton.id = 'decrement-btn';
+
     decrementButton.addEventListener('click', () => {
         decrementItem(product.id);
     });
@@ -352,7 +373,15 @@ function loadDetailContent(product) {
     // Create images for left side
     product.gallery.forEach(imageUrl => {
         const img = document.createElement('img');
+        img.classList.add('left-side-img');
         img.src = imageUrl;
+
+        img.addEventListener('click', function () {
+            $('.left-side-img').css('border', '2px solid black');
+            $('.right-side-part-1 img').attr('src', imageUrl);
+            $(this).css('border', '2.5px solid green');
+        });
+
         leftSide.appendChild(img);
     });
 
@@ -387,6 +416,11 @@ function loadDetailContent(product) {
         sizeDiv.classList.add('size-1');
         sizeDiv.textContent = size;
         sizesDiv.querySelector('.sizes').appendChild(sizeDiv);
+
+        $(sizeDiv).hover(function () {
+            $('.size-1').css('background-color', 'transparent');
+            $(this).css('background-color', 'green');
+        });
     });
 
     rightSidePart2.appendChild(sizesDiv);
@@ -402,6 +436,11 @@ function loadDetailContent(product) {
         colorDiv.style.backgroundColor = color;
         colorDiv.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.5)';
         colorsDiv.querySelector('.colors').appendChild(colorDiv);
+
+        $(colorDiv).hover(function () {
+            $('.color-1').css('border', '4px solid transparent');
+            $(this).css('border', '4px solid white');
+        });
     });
 
     rightSidePart2.appendChild(colorsDiv);
@@ -583,7 +622,6 @@ $('#increment-btn').on('click', () => {
 
 
 function decrementItem(id) {
-
     loadOrderContent((items) => {
         const index = items.findIndex(item => item.productId === id);
 
@@ -594,14 +632,12 @@ function decrementItem(id) {
             userId: getCookie("userId")
         };
         sendOrder(orderBody);
-        document.getElementById('quantity'+id).textContent=parseInt(document.getElementById('quantity'+id).textContent) -1; 
+        parseInt(document.getElementById('quantity' + id).textContent) === 1 ? location.reload() : "";
+        changeOrderContent(items);
+        document.getElementById('quantity' + id).textContent = parseInt(document.getElementById('quantity' + id).textContent) - 1;
     },
         (error) => {
-            const orderBody = {
-                orderItems: { productId: orderId },
-                userId: getCookie("userId")
-            };
-            sendOrder(orderBody);
+            alertify.error('error => ' + error);
         });
 }
 
@@ -613,15 +649,40 @@ function incrementItem(id) {
             userId: getCookie("userId")
         };
         sendOrder(orderBody);
-        document.getElementById('quantity'+id).textContent=parseInt(document.getElementById('quantity'+id).textContent) +1; 
+        changeOrderContent(items);
+        document.getElementById('quantity' + id).textContent = parseInt(document.getElementById('quantity' + id).textContent) + 1;
     },
         (error) => {
-            const orderBody = {
-                orderItems: { productId: orderId },
-                userId: getCookie("userId")
-            };
-            sendOrder(orderBody);
+            alertify.error('error => ' + error);
         });
 
 
+}
+
+
+async function calculateAgain(orderId, count) {
+    let product = await getSingleProduct(orderId);
+    $('#totalPrice').text(parseInt($('#totalPrice').text()) + product.price * count);
+    $('#totalQuantity').text(parseInt($('#totalQuantity').text()) + count);
+    $('#taxResult').text(parseFloat(($('#tax').text().replace('%', '').replace(':', '')).trim().split(' ')[1])
+        * $('#totalPrice').text());
+    console.log(product);
+}
+
+function changeOrderContent(items) {
+    const uniqueProducts = items.reduce((acc, currentItem) => {
+        const productId = currentItem.productId;
+        if (!acc[productId]) {
+            acc[productId] = 1;
+        } else {
+            acc[productId] += 1;
+        }
+        return acc;
+    }, {});
+
+    $('#totalPrice').text('0');
+    $('#totalQuantity').text('0');
+    (Object.entries(uniqueProducts)).map(([productId, count]) => {
+        calculateAgain(productId, count);
+    });
 }
