@@ -1,3 +1,4 @@
+// ------------------------ V-Models ------------------------
 // requet vm
 function reqParams(controller, action, queryString, token, method) {
     this.controller = controller;
@@ -12,12 +13,12 @@ const Method = {
     PUT: 'PUT',
     DELETE: 'DELETE'
 };
-// user vm
+// login-user v_model
 function loginUserVM(email, password) {
     this.email = email;
     this.password = password;
 }
-
+// register-user v_model
 function registerUserVM(name, surname, email, password) {
     this.name = name;
     this.surname = surname;
@@ -25,10 +26,10 @@ function registerUserVM(name, surname, email, password) {
     this.password = password;
 }
 
-// request service
+// ------------------------ Services ------------------------
+// request sender service
 function request(data, reqParams, successCallBack, errorCallBack) {
     let url = generateUrl(reqParams);
-    // alert(url);
     $.ajax({
         type: reqParams.method,
         url: url,
@@ -46,7 +47,7 @@ function request(data, reqParams, successCallBack, errorCallBack) {
         }
     });
 }
-
+// url generator service
 function generateUrl(reqParams) {
     return "http://localhost:5000/api" +
         (reqParams.controller !== null ? `/${reqParams.controller}` : "") +
@@ -56,12 +57,9 @@ function generateUrl(reqParams) {
 }
 
 
-// imports
-// import { Method,reqParams } from './Models/requestParams.js';
-// import { registerUserVM,loginUserVM } from './Models/UserVM.js';
-// import { request} from './Services/requestService.js';
 
-// // ----------------------------------------------login page ----------------------------------------------
+
+// ----------------------------------------------login page ----------------------------------------------
 
 $('.input').each(function () {
     $(this).on('focus', function () {
@@ -82,26 +80,17 @@ $(document).ready(() => {
 });
 
 
-// click login btn
-// $(document).ready(() => {
-//     $('#login-btn')?.on('click', () => {
-//         let email = $('#login-email').value;
-//         let pass = $('#login-password').value;
-//         loginValidator(email, pass) ? location.href = './products.html' : alertify.error("invalid data");
-//     });
-// });
-
 //validation login informations
 function loginValidator(email, pass) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    const emailRegex = /^(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)])$/;
     return passwordRegex.test(pass) && emailRegex.test(email);
-    // return true;
-
 }
 
 
-// // ----------------------------------------------register page ----------------------------------------------
+
+// ----------------------------------------------register page ----------------------------------------------
+// click login link
 $(document).ready(() => {
 
     $('#login')?.on('click', () => {
@@ -118,7 +107,9 @@ $(document).ready(() => {
             $('#register-surname').val(),
             $('#register-email').val(),
             $('#register-password').val());
+
         let req_params = new reqParams('auth', 'register', null, null, Method.POST);
+
         request(user, req_params,
             (resp) => {
                 alertify.success("user registered successdfully");
@@ -135,16 +126,19 @@ $(document).ready(() => {
 $(document).ready(() => {
 
     $('#login-btn')?.on('click', () => {
-        let email = $('#login-email').value;
-        let pass = $('#login-password').value;
-        if (loginValidator(email, pass)) {
+        let email = $('#login-email').val();
+        let pass = $('#login-password').val();
+
+        if (!loginValidator(email, pass)) {
             alertify.error("invalid data");
             return;
         }
         let user = new loginUserVM(
             $('#login-email').val(),
             $('#login-password').val());
+
         let req_params = new reqParams('auth', 'login', null, null, Method.POST);
+
         request(user, req_params,
             (resp) => {
                 setCookie('token', resp.user.token);
@@ -153,7 +147,7 @@ $(document).ready(() => {
                 location.href = './products.html';
             },
             (error) => {
-                alertify.error(error);
+                error === undefined ? alertify.error("server is not responfing") : alertify.error(error);
             });
     });
 
@@ -162,8 +156,12 @@ $(document).ready(() => {
 // on page loads
 document.addEventListener('DOMContentLoaded', async () => {
     const currentPage = window.location.pathname;
+
+    // products page loading
     if (currentPage.includes('products.html'))
         loadProductContent();
+
+    // orders page loading
     else if (currentPage.includes('orders.html')) {
         loadOrderContent((items) => {
             const uniqueProducts = items.reduce((acc, currentItem) => {
@@ -181,13 +179,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             (Object.entries(uniqueProducts)).map(([productId, count]) => {
                 generateOrderCard(productId, count);
             });
-
-
         },
             (error) => {
                 alertify.error(error ? error : "you do not have any order");
             });
     }
+
+    // details page loading
     else if (currentPage.includes('details.html')) {
         var id = window.location.href.substring(window.location.href.indexOf('=') + 1);
         let product = await getSingleProduct(id);
@@ -195,9 +193,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-
+// loading order content
 function loadOrderContent(callback, errorCallBack) {
-    // $('#orders-container').empty();
     let req_params = new reqParams('orders', null, null, getCookie('token'), Method.GET);
     request(null, req_params,
         (resp) => {
@@ -208,7 +205,7 @@ function loadOrderContent(callback, errorCallBack) {
         });
 }
 
-
+// generation order cards
 async function generateOrderCard(orderId, count) {
 
     let product = await getSingleProduct(orderId);
@@ -361,6 +358,9 @@ async function generateOrderCard(orderId, count) {
     // Append the order component to the container
     document.getElementById('orders-container').appendChild(orderComponent);
 }
+
+
+// loading detail content
 function loadDetailContent(product) {
     // Create main detail body
     const detailBody = document.createElement('div');
@@ -475,6 +475,8 @@ function loadDetailContent(product) {
 
 }
 
+
+// loading product content
 function loadProductContent() {
     let req_params = new reqParams('products', null, null, getCookie('token'), Method.GET);
     request(null, req_params,
@@ -488,6 +490,9 @@ function loadProductContent() {
         });
 }
 
+
+
+// generation product cards
 function generateProductCard(product) {
     // Create main card div
     const cardDiv = document.createElement('div');
@@ -537,10 +542,14 @@ function generateProductCard(product) {
 }
 
 
+
+// ----------------------- cookie operations -----------------------
+// set cookie
 function setCookie(key, value) {
     document.cookie = encodeURIComponent(key) + "=" + encodeURIComponent(value) + ";path=/";
 }
 
+//get cookie
 function getCookie(key) {
     var name = key + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -558,7 +567,9 @@ function getCookie(key) {
 }
 
 
-// order page
+// ---------------------- order page ----------------------
+
+// order product 
 $(document).ready(() => {
     $('#product-basket').on('click', () => {
         location.href = './orders.html';
@@ -566,7 +577,7 @@ $(document).ready(() => {
 });
 
 
-// shopping btn
+// get product by id from api
 function getSingleProduct(id) {
     return new Promise((resolve, reject) => {
         let req_params = new reqParams(`products/${id}`, null, null, getCookie('token'), Method.GET);
@@ -582,7 +593,7 @@ function getSingleProduct(id) {
 }
 
 
-
+//creating order
 function createOrder(orderId) {
     loadOrderContent((items) => {
         items.push({ productId: orderId });
@@ -602,6 +613,7 @@ function createOrder(orderId) {
 }
 
 
+// send order
 function sendOrder(orderBody) {
     let req_params = new reqParams('orders', null, null, getCookie('token'), Method.PUT);
     request(orderBody, req_params,
@@ -614,13 +626,7 @@ function sendOrder(orderBody) {
 }
 
 
-$('#increment-btn').on('click', () => {
-
-});
-
-
-
-
+//decrement order
 function decrementItem(id) {
     loadOrderContent((items) => {
         const index = items.findIndex(item => item.productId === id);
@@ -641,6 +647,8 @@ function decrementItem(id) {
         });
 }
 
+
+// increment order
 function incrementItem(id) {
     loadOrderContent((items) => {
         items.push({ productId: id });
@@ -660,6 +668,7 @@ function incrementItem(id) {
 }
 
 
+// calcluate orders price
 async function calculateAgain(orderId, count) {
     let product = await getSingleProduct(orderId);
     $('#totalPrice').text(parseInt($('#totalPrice').text()) + product.price * count);
@@ -669,6 +678,8 @@ async function calculateAgain(orderId, count) {
     console.log(product);
 }
 
+
+//change order content
 function changeOrderContent(items) {
     const uniqueProducts = items.reduce((acc, currentItem) => {
         const productId = currentItem.productId;
