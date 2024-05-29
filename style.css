@@ -299,7 +299,7 @@ body {
 /* CARD */
 .main .products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
 }
 
@@ -316,7 +316,7 @@ body {
 .card .img-div {
     display: flex;
     justify-content: center;
-    /* width: 100%; */
+    width: 100%;
 }
 
 .card {
@@ -326,8 +326,8 @@ body {
     position: relative;
     gap: 10px;
     overflow: hidden;
-    max-width: 230px;
-    min-width: 230px;
+    max-width: 210px;
+    min-width: 210px;
     /* background-color: 1ightgray; */
     padding: 10px 10px;
     box-shadow: 0px 0px 2px 2px lightgray;
@@ -374,8 +374,8 @@ body {
 }
 
 .products .card img {
-    height: 220px;
-    width: 220px;
+    height: 200px;
+    width: 200px;
     object-fit: contain;
 }
 

@@ -82,8 +82,8 @@ $(document).ready(() => {
 
 //validation login informations
 function loginValidator(email, pass) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,}$/;
     return passwordRegex.test(pass) && emailRegex.test(email);
 }
 
@@ -128,7 +128,7 @@ $(document).ready(() => {
     $('#login-btn')?.on('click', () => {
         let email = $('#login-email').val();
         let pass = $('#login-password').val();
-
+      
         if (!loginValidator(email, pass)) {
             alertify.error("invalid data");
             return;
