@@ -113,7 +113,9 @@ $(document).ready(() => {
         request(user, req_params,
             (resp) => {
                 alertify.success("user registered successdfully");
-                location.href = './index.html';
+                setTimeout(() => {
+                    location.href = './index.html';
+                }, 800);
             },
             (error) => {
                 alertify.error(error);
@@ -125,10 +127,11 @@ $(document).ready(() => {
 // login
 $(document).ready(() => {
 
-    $('#login-btn')?.on('click', () => {
+    $('#login-btn').on('click', () => {
+        console.log("called");
         let email = $('#login-email').val();
         let pass = $('#login-password').val();
-      
+
         if (!loginValidator(email, pass)) {
             alertify.error("invalid data");
             return;
